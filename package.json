@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/ErebosNighthawk/bot-antienlaces#readme",
   "dependencies": {
-    "baileys": "5.0.0"
+    "baileys": "^5.0.0"
   }
 }
