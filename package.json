@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node index.js"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "baileys": "^5.0.0"
   }
