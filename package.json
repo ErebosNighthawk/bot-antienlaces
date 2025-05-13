@@ -6,17 +6,17 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  }
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ErebosNighthawk/bot-antienlaces.git"
-  },
+  }
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ErebosNighthawk/bot-antienlaces/issues"
-  },
+  }
   "homepage": "https://github.com/ErebosNighthawk/bot-antienlaces#readme",
   "dependencies": {
     "baileys": "^5.0.0"
