@@ -1,14 +1,24 @@
 {
   "name": "bot-whatsapp",
   "version": "1.0.0",
-  "description": "Bot para WhatsApp para expulsar usuarios con enlaces",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ErebosNighthawk/bot-antienlaces.git"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ErebosNighthawk/bot-antienlaces/issues"
+  },
+  "homepage": "https://github.com/ErebosNighthawk/bot-antienlaces#readme",
+  "description": "Bot para WhatsApp que expulsa usuarios con enlaces",
   "dependencies": {
-    "baileys": "^5.0.0"
+    "@whiskeysockets/baileys": "^6.17.16"
   }
 }
