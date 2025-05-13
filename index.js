@@ -1,45 +1,42 @@
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason } = require("@whiskeysockets/baileys");
-const { Boom } = require("@hapi/boom");
+const { makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
 
 async function startBot() {
-    const { state, saveCreds } = await useMultiFileAuthState('auth_info');
+    // Obtener la última versión de Baileys
+    const { version } = await fetchLatestBaileysVersion();
+    console.log('Usando la versión de Baileys:', version);
+
+    // Crear la conexión del bot
+    const { state, saveCreds } = await useMultiFileAuthState('./auth_info');
     const sock = makeWASocket({
-        auth: state,
-        printQRInTerminal: true,
+        version,
+        auth: state
     });
 
-    sock.ev.on("creds.update", saveCreds);
-
-    sock.ev.on("messages.upsert", async ({ messages, type }) => {
-        const msg = messages[0];
-        if (!msg.message || !msg.key.remoteJid.endsWith("@g.us")) return;
-
-        const texto = msg.message.conversation || msg.message.extendedTextMessage?.text || "";
-
-        if (/(https?:\/\/[^\s]+)/.test(texto)) {
-            try {
-                await sock.groupParticipantsUpdate(
-                    msg.key.remoteJid,
-                    [msg.key.participant],
-                    "remove"
-                );
-                console.log(`👢 Usuario expulsado por enviar un enlace: ${msg.key.participant}`);
-            } catch (err) {
-                console.log("Error al expulsar:", err);
+    sock.ev.on('connection.update', (update) => {
+        const { connection, lastDisconnect } = update;
+        if (connection === 'close') {
+            if (lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut) {
+                startBot(); // Reconectar si se cierra la conexión
             }
+        } else if (connection === 'open') {
+            console.log('Conexión abierta');
         }
     });
 
-    sock.ev.on("connection.update", (update) => {
-        const { connection, lastDisconnect } = update;
-        if (connection === "close") {
-            const shouldReconnect = (lastDisconnect.error = new Boom(lastDisconnect?.error))?.output?.statusCode !== DisconnectReason.loggedOut;
-            console.log("conexión cerrada. reconectando:", shouldReconnect);
-            if (shouldReconnect) {
-                startBot();
+    // Escuchar los mensajes
+    sock.ev.on('messages.upsert', async (m) => {
+        console.log('Mensaje recibido: ', m);
+        const message = m.messages[0];
+        
+        // Filtramos los mensajes con enlaces
+        if (message.message.conversation) {
+            const text = message.message.conversation;
+            if (text.includes('http') || text.includes('www')) {
+                console.log('Enlace detectado: ', text);
+                
+                // Enviar un mensaje de advertencia
+                await sock.sendMessage(message.key.remoteJid, { text: '¡No se permiten enlaces!' });
             }
-        } else if (connection === "open") {
-            console.log("✅ Bot conectado");
         }
     });
 }
