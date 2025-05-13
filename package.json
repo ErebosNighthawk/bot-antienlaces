@@ -1,8 +1,10 @@
 {
   "name": "bot-whatsapp",
   "version": "1.0.0",
+  "description": "Bot para WhatsApp para expulsar usuarios con enlaces",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,16 +18,6 @@
     "url": "https://github.com/ErebosNighthawk/bot-antienlaces/issues"
   },
   "homepage": "https://github.com/ErebosNighthawk/bot-antienlaces#readme",
-  "description": "Bot para WhatsApp para expulsar usuarios con enlaces"
-}
-{
-  "name": "bot-whatsapp",
-  "version": "1.0.0",
-  "description": "Bot para WhatsApp para expulsar usuarios con enlaces",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
   "dependencies": {
     "baileys": "^5.0.0"
   }
